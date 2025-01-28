@@ -6,15 +6,18 @@
 
 namespace offset
 {
-	// Main
+	// Address
 	constexpr auto dwEntityList		= cs2_dumper::offsets::client_dll::dwEntityList;
-	constexpr auto dwLocalPlayerController	= cs2_dumper::offsets::client_dll::dwLocalPlayerController; // ?
+	constexpr auto dwLocalPlayerController	= cs2_dumper::offsets::client_dll::dwLocalPlayerController;
 	constexpr auto dwViewRender		= cs2_dumper::offsets::client_dll::dwViewRender;
 	constexpr auto dwViewMatrix		= cs2_dumper::offsets::client_dll::dwViewMatrix;
 	constexpr auto dwViewAngles		= cs2_dumper::offsets::client_dll::dwViewAngles;
 
+	// CCSPlayerControlle
 	constexpr auto m_hPlayerPawn = cs2_dumper::schemas::client_dll::CCSPlayerController::m_hPlayerPawn;
+	constexpr auto m_sSanitizedPlayerName = cs2_dumper::schemas::client_dll::CCSPlayerController::m_sSanitizedPlayerName;
 
+	// C_BaseEntity
 	constexpr auto m_fFlags = cs2_dumper::schemas::client_dll::C_BaseEntity::m_fFlags;
 	constexpr auto m_iHealth = cs2_dumper::schemas::client_dll::C_BaseEntity::m_iHealth;
 	constexpr auto m_iMaxHealth = cs2_dumper::schemas::client_dll::C_BaseEntity::m_iMaxHealth;
@@ -23,17 +26,15 @@ namespace offset
 	constexpr auto m_pCollision = cs2_dumper::schemas::client_dll::C_BaseEntity::m_pCollision;
 	constexpr auto m_pGameSceneNode = cs2_dumper::schemas::client_dll::C_BaseEntity::m_pGameSceneNode;
 
+	// C_BasePlayerPawn
 	constexpr auto m_vOldOrigin = cs2_dumper::schemas::client_dll::C_BasePlayerPawn::m_vOldOrigin;
 	constexpr auto m_pCameraServices = cs2_dumper::schemas::client_dll::C_BasePlayerPawn::m_pCameraServices;
 
+	// CSkeletonInstance
 	constexpr auto m_modelState = cs2_dumper::schemas::client_dll::CSkeletonInstance::m_modelState;
 
-	// ???
-	constexpr auto m_nForceBone = cs2_dumper::schemas::client_dll::CBaseAnimGraph::m_nForceBone;
-	constexpr auto m_bDormant = cs2_dumper::schemas::client_dll::CGameSceneNode::m_bDormant;
-
-	constexpr auto m_nPrevArmorVal = cs2_dumper::schemas::client_dll::C_CSPlayerPawn::m_nPrevArmorVal;
-	constexpr auto m_vecAbsVelocity = 0;//cs2_dumper::schemas::client_dll::C_BaseEntity::m_vecAbsVelocity;
+	// dev
+	constexpr auto m_ArmorValue = cs2_dumper::schemas::client_dll::C_CSPlayerPawn::m_ArmorValue;
 };
 
 enum CBoneID
