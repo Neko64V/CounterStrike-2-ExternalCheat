@@ -14,9 +14,8 @@ struct Globals
 
     // Visual
     bool g_ESP      = true;
-    bool g_ESP_Glow = false;
-    bool g_ESP_NPC  = false;
     bool g_ESP_Team = false;
+
     bool g_ESP_Box  = true;
     bool g_ESP_BoxFilled = false;
     bool g_ESP_Line      = false;
