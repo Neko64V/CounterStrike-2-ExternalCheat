@@ -8,6 +8,8 @@ bool CEntity::Update()
 	if (Vec3_Empty(m_vOldOrigin) || m_iHealth <= 0)
 		return false;
 
+	m_ArmorValue = m.Read<int>(CCSPlayerPawn + offset::m_ArmorValue);
+
 	/*
 	m_pBoneArray		  = m.Read<uintptr_t>(address + offset::m_nForceBone);
 	m_vecAbsVelocity  = m.Read<Vector3>(address + offset::m_vecAbsVelocity);
@@ -24,7 +26,7 @@ bool CEntity::UpdateStatic(const uintptr_t& entitylist)
 
 	if (list == NULL)
 		return false;
-	
+
 	// pointers
 	CCSPlayerPawn = m.Read<uintptr_t>(list + 120 * (pawn & 0x1FF));
 	m_pGameSceneNode = m.Read<uintptr_t>(CCSPlayerPawn + offset::m_pGameSceneNode);
@@ -35,6 +37,12 @@ bool CEntity::UpdateStatic(const uintptr_t& entitylist)
 	m_iTeamNum = m.Read<int>(address + offset::m_iTeamNum);
 	m_iMaxHealth = m.Read<int>(CCSPlayerPawn + offset::m_iMaxHealth);
 
+	// Name
+	uintptr_t nameAddress = m.Read<uintptr_t>(address + offset::m_sSanitizedPlayerName);
+
+	if (nameAddress != NULL) {
+		m.ReadString(nameAddress, &pName, sizeof(pName));
+	}
 	return true;
 }
 

@@ -26,7 +26,9 @@ public:
 	int m_lifeState;
 	int m_iHealth;
 	int m_iMaxHealth;
+	int m_ArmorValue;
 	uintptr_t m_pBoneArray;
+	char pName[32];
 
     // Functions
 	bool Update();
