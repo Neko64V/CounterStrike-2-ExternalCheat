@@ -8,7 +8,7 @@ void Memory::GetBaseAddress()
 {
 	// ベースアドレスを取得
 	m_gClientBaseAddr = GetModuleBase("client.dll");
-	m_gEngineBaseAddr = GetModuleBase("engine.dll");
+	//m_gEngineBaseAddr = GetModuleBase("engine.dll");
 }
 
 void Overlay::OverlayUserFunction()
