@@ -1,10 +1,8 @@
 #include "FrameCore.h"
 
-ImColor TEXT_COLOR = ImColor(1.f, 1.f, 1.f, 1.f);
-
 void CFramework::RenderInfo()
 {
-    String(Vector2(), ImColor(1.f, 1.f, 1.f, 1.f), std::to_string((int)ImGui::GetIO().Framerate).c_str());
+    String(Vector2(), TEXT_COLOR, std::to_string((int)ImGui::GetIO().Framerate).c_str());
 
     // Crosshair
     if (g.g_Crosshair)
@@ -155,10 +153,7 @@ void CFramework::RenderESP()
             switch (g.g_ESP_BoxType)
             {
             case 0:
-                DrawLine(Vector2(left, top), Vector2(right, top), color, 1.f);
-                DrawLine(Vector2(left, top), Vector2(left, bottom), color, 1.f);
-                DrawLine(Vector2(right, top), Vector2(right, bottom), color, 1.f);
-                DrawLine(Vector2(left, bottom), Vector2(right + 1, bottom), color, 1.f);
+                DrawBox(right, left, top, bottom, color, 1.f);
                 break;
             case 1:
                 DrawLine(Vector2(left, top), Vector2(left + bScale, top), color, 1.f); // Top
@@ -219,19 +214,19 @@ void CFramework::RenderESP()
 
         // Healthbar
         if (g.g_ESP_HealthBar) {
-            HealthBar(left - 4.f, bottom, 2, -Height, pEntity->m_iHealth, pEntity->m_iMaxHealth); // Health
+            HealthBar(left - 3, bottom + 1, 1, -Height - 1, pEntity->m_iHealth, pEntity->m_iMaxHealth); // Health
+            ArmorBar(right + 3, bottom + 1, 1, -Height - 1, pEntity->m_ArmorValue, pEntity->m_iMaxHealth); // Armor
         }
 
         // Distance
         if (g.g_ESP_Distance) {
-            const std::string DistStr = std::to_string((int)pDistance) + "m";
-            StringEx(Vector2(right - Center - (ImGui::CalcTextSize(DistStr.c_str()).x / 2.f), bottom + 1), ImColor(1.f, 1.f, 1.f, 1.f), ImGui::GetFontSize(), DistStr.c_str());
+            const std::string distStr = std::to_string((int)pDistance) + "m";
+            StringEx(Vector2(right - Center - (ImGui::CalcTextSize(distStr.c_str()).x / 2.f), bottom + 1), TEXT_COLOR, ImGui::GetFontSize(), distStr.c_str());
         }
 
         // Name
-        /*
         if (g.g_ESP_Name) {
-            StringEx(Vector2(right - Center - (ImGui::CalcTextSize(pName.c_str()).x / 2.f), top - ImGui::GetFontSize() - 1), ImColor(1.f, 1.f, 1.f, 1.f), ImGui::GetFontSize(), pName.c_str());
-        }*/
+            StringEx(Vector2(right - Center - (ImGui::CalcTextSize(pEntity->pName).x / 2.f), top - ImGui::GetFontSize() - 1), TEXT_COLOR, ImGui::GetFontSize(), pEntity->pName);
+        }
     }
 }

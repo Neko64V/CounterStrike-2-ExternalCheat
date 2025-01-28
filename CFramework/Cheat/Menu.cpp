@@ -14,7 +14,12 @@ void CFramework::RenderMenu()
     static float DefaultSpacing = style.ItemSpacing.y;
     static int Index = 0;
     static int BindingID = 0;
-    
+
+    ESP_Default.Value.w = m_flGlobalAlpha;
+    ESP_Visible.Value.w = m_flGlobalAlpha;
+    ESP_Team.Value.w    = m_flGlobalAlpha;
+    ESP_Shadow.Value.w  = m_flShadowAlpha;
+    TEXT_COLOR.Value.w  = m_flGlobalAlpha;
 
     ImGui::SetNextWindowBgAlpha(0.975f);
     ImGui::SetNextWindowSize(ImVec2(725.f, 450.f));
@@ -51,8 +56,6 @@ void CFramework::RenderMenu()
         ImGui::Spacing();
 
         ImGui::Checkbox("ESP", &g.g_ESP);
-        ImGui::Checkbox("Glow", &g.g_ESP_Glow);
-        ImGui::Checkbox("NPC ESP", &g.g_ESP_NPC);
         ImGui::Checkbox("Team ESP", &g.g_ESP_Team);
 
         ImGui::EndChild();
@@ -65,10 +68,11 @@ void CFramework::RenderMenu()
         ImGui::Checkbox("Box", &g.g_ESP_Box);
         ImGui::Checkbox("BoxFilled", &g.g_ESP_BoxFilled);
         ImGui::Checkbox("Line", &g.g_ESP_Line);
+        ImGui::Checkbox("Skeleton", &g.g_ESP_Skeleton);
+        ImGui::Checkbox("HealthBar", &g.g_ESP_HealthBar);
         ImGui::Checkbox("Name", &g.g_ESP_Name);
         ImGui::Checkbox("Distance", &g.g_ESP_Distance);
-        ImGui::Checkbox("HealthBar", &g.g_ESP_HealthBar);
-
+       
         ImGui::EndChild();
         break;
     case 1: { // misc
@@ -136,10 +140,16 @@ void CFramework::RenderMenu()
         ImGui::Separator();
         ImGui::Spacing();
 
-        ImGui::ColorEdit4("Default", &ESP_Default.Value.x);
-        ImGui::ColorEdit4("Visible", &ESP_Visible.Value.x);
-        ImGui::ColorEdit4("Team", &ESP_Team.Value.x);
-        ImGui::ColorEdit4("Shadow", &ESP_Shadow.Value.x);
+        ImGui::ColorEdit3("Default", &ESP_Default.Value.x);
+        ImGui::ColorEdit3("Visible", &ESP_Visible.Value.x);
+        ImGui::ColorEdit3("Team", &ESP_Team.Value.x);
+        ImGui::ColorEdit3("Shadow", &ESP_Shadow.Value.x, ImGuiColorEditFlags_DisplayRGB);
+
+        ImGui::NewLine();
+
+        ImGui::SeparatorText("Alpha");
+        ImGui::CustomSliderFloat("Global", "##GlobalA", &m_flGlobalAlpha, 0.3f, 1.0f, "%.2f");
+        ImGui::CustomSliderFloat("Shadow", "##ShadowA", &m_flShadowAlpha, 0.1f, 0.3f, "%.2f");
 
         ImGui::EndChild();
         break;
