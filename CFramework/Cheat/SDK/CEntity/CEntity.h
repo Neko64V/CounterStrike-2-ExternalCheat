@@ -7,7 +7,7 @@ struct Bone {
 };
 
 struct AllBones {
-	Bone bone[128]{};
+	Bone bone[32]{};
 };
 
 class CEntity
