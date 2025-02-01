@@ -12,12 +12,30 @@ namespace offset
 	constexpr auto dwViewRender		= cs2_dumper::offsets::client_dll::dwViewRender;
 	constexpr auto dwViewMatrix		= cs2_dumper::offsets::client_dll::dwViewMatrix;
 	constexpr auto dwViewAngles		= cs2_dumper::offsets::client_dll::dwViewAngles;
+	constexpr auto dwGlobalVars		= cs2_dumper::offsets::client_dll::dwGlobalVars;
+	constexpr auto dwPlantedC4		= cs2_dumper::offsets::client_dll::dwPlantedC4;
+	
+	// Button
+	constexpr auto attack = 0x1875710;
+	constexpr auto attack2 = 0x18757A0;
+	constexpr auto back = 0x18759E0;
+	constexpr auto duck = 0x1875CB0;
+	constexpr auto forward = 0x1875950;
+	constexpr auto jump = 0x1875C20;
+	constexpr auto left = 0x1875A70;
+	constexpr auto lookatweapon = 0x1A9DF50;
+	constexpr auto reload = 0x1875680;
+	constexpr auto right = 0x1875B00;
+	constexpr auto showscores = 0x1A9DE30;
+	constexpr auto sprint = 0x18755F0;
+	constexpr auto turnleft = 0x1875830;
+	constexpr auto turnright = 0x18758C0;
+	constexpr auto use = 0x1875B90;
+	constexpr auto zoom = 0x1A9DEC0;
 
 	// CCSPlayerControlle
 	constexpr auto m_hPlayerPawn = cs2_dumper::schemas::client_dll::CCSPlayerController::m_hPlayerPawn;
 	constexpr auto m_sSanitizedPlayerName = cs2_dumper::schemas::client_dll::CCSPlayerController::m_sSanitizedPlayerName;
-
-	// C_BaseEntity
 	constexpr auto m_fFlags = cs2_dumper::schemas::client_dll::C_BaseEntity::m_fFlags;
 	constexpr auto m_iHealth = cs2_dumper::schemas::client_dll::C_BaseEntity::m_iHealth;
 	constexpr auto m_iMaxHealth = cs2_dumper::schemas::client_dll::C_BaseEntity::m_iMaxHealth;
@@ -25,16 +43,19 @@ namespace offset
 	constexpr auto m_lifeState = cs2_dumper::schemas::client_dll::C_BaseEntity::m_lifeState;
 	constexpr auto m_pCollision = cs2_dumper::schemas::client_dll::C_BaseEntity::m_pCollision;
 	constexpr auto m_pGameSceneNode = cs2_dumper::schemas::client_dll::C_BaseEntity::m_pGameSceneNode;
-
-	// C_BasePlayerPawn
+	constexpr auto m_ArmorValue = cs2_dumper::schemas::client_dll::C_CSPlayerPawn::m_ArmorValue;
+	constexpr auto m_vecLastClipCameraPos = cs2_dumper::schemas::client_dll::C_CSPlayerPawnBase::m_vecLastClipCameraPos;
+	constexpr auto m_angEyeAngles = cs2_dumper::schemas::client_dll::C_CSPlayerPawnBase::m_angEyeAngles;
+	constexpr auto m_iIDEntIndex = cs2_dumper::schemas::client_dll::C_CSPlayerPawnBase::m_iIDEntIndex;
+	constexpr auto m_pClippingWeapon = cs2_dumper::schemas::client_dll::C_CSPlayerPawnBase::m_pClippingWeapon;
 	constexpr auto m_vOldOrigin = cs2_dumper::schemas::client_dll::C_BasePlayerPawn::m_vOldOrigin;
 	constexpr auto m_pCameraServices = cs2_dumper::schemas::client_dll::C_BasePlayerPawn::m_pCameraServices;
-
-	// CSkeletonInstance
 	constexpr auto m_modelState = cs2_dumper::schemas::client_dll::CSkeletonInstance::m_modelState;
+	constexpr auto m_szName = cs2_dumper::schemas::client_dll::CCSWeaponBaseVData::m_szName;
 
-	// dev
-	constexpr auto m_ArmorValue = cs2_dumper::schemas::client_dll::C_CSPlayerPawn::m_ArmorValue;
+	// C4
+	constexpr auto m_flTimerLength = cs2_dumper::schemas::client_dll::C_PlantedC4::m_flTimerLength;
+	constexpr auto m_vecAbsOrigin = cs2_dumper::schemas::client_dll::CGameSceneNode::m_vecAbsOrigin;
 };
 
 enum CBoneID
@@ -58,5 +79,8 @@ enum CBoneID
 	BONE_RIGHT_FEET = 27,
 };
 
+extern bool Vec2_Empty(const Vector2& value);
 extern bool Vec3_Empty(const Vector3& value);
+extern void NormalizeAngles(Vector2& angle);
+extern Vector2 CalcAngle(const Vector3& src, const Vector3& dst);
 extern bool WorldToScreen(Matrix ViewMatrix, RECT Size, Vector3 vIn, Vector2& vOut);

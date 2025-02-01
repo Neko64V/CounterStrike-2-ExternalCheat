@@ -49,6 +49,9 @@
     <Filter Include="Cheat\SDK\GameSDK\a2x">
       <UniqueIdentifier>{9c9a645b-ede4-491c-b2aa-ae5f18c9bcc1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\ImGui\Fonts">
+      <UniqueIdentifier>{de8d61c8-6982-4a02-bcf1-2c4e2bb50646}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -104,6 +107,9 @@
     </ClCompile>
     <ClCompile Include="Framework\Overlay\Manager.cpp">
       <Filter>Framework\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\ImGui\imgui_freetype.cpp">
+      <Filter>Framework\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +172,18 @@
     </ClInclude>
     <ClInclude Include="Cheat\SDK\GameSDK\a2x\offsets.hpp">
       <Filter>Cheat\SDK\GameSDK\a2x</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ImGui\imgui_freetype.h">
+      <Filter>Framework\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ImGui\Fonts\fa.h">
+      <Filter>Framework\ImGui\Fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ImGui\Fonts\IconsFontAwesome6.h">
+      <Filter>Framework\ImGui\Fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ImGui\Fonts\RobotoRegular.h">
+      <Filter>Framework\ImGui\Fonts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

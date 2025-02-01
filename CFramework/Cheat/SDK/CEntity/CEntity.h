@@ -14,9 +14,12 @@ class CEntity
 {
 public:
     uintptr_t address;
-	uintptr_t CCSPlayerPawn;
+	uintptr_t m_pCSPlayerPawn;
 	uintptr_t m_pGameSceneNode;
 	uintptr_t m_pCameraServices;
+	uintptr_t m_pCollision;
+	uintptr_t m_pClippingWeapon;
+	uintptr_t m_pBoneArray;
 
 	// Player
 	Vector3 m_vecAbsVelocity;
@@ -27,17 +30,32 @@ public:
 	int m_iHealth;
 	int m_iMaxHealth;
 	int m_ArmorValue;
-	uintptr_t m_pBoneArray;
-	char pName[32];
+	uint32_t m_iIDEntIndex;
+	char m_namePlayer[32];
+	std::string m_nameWeapon;
+	std::string m_nameClass;
 
     // Functions
 	bool Update();
 	bool UpdateStatic(const uintptr_t& entitylist);
 	bool IsDead();
+	bool TriggerAllow(const uintptr_t& entitylist, CEntity* local);
 
 	Vector3 vecMin();
 	Vector3 vecMax();
 
+	Vector3 GetCameraPosition()
+	{
+		return m.Read<Vector3>(m_pCSPlayerPawn + offset::m_vecLastClipCameraPos);
+	}
+
+	Vector3 GetViewAngle()
+	{
+		return m.Read<Vector3>(m.m_gClientBaseAddr + offset::dwViewAngles);
+		//return m.Read<Vector3>(m_pCSPlayerPawn + offset::m_angEyeAngles);
+	}
+
 	uint32_t GetFlag();
+	Vector3 GetBoneByID(const int ID);
 	std::vector<Vector3> GetBoneList();
 };

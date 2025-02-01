@@ -10,7 +10,7 @@ bool Memory::AttachProcess(const char* targetName, int InitMode)
         HWND hWindow = InitMode == WINDOW_TITLE ? FindWindowA(nullptr, targetName) : FindWindowA(targetName, nullptr);
 
         if (!hWindow) {
-            MessageBoxA(nullptr, "please open r5reloaded", "Initialize Failed", MB_TOPMOST | MB_ICONERROR | MB_OK);
+            MessageBoxA(nullptr, "please open cs2", "Initialize Failed", MB_TOPMOST | MB_ICONERROR | MB_OK);
             return false;
         }
 
@@ -22,7 +22,7 @@ bool Memory::AttachProcess(const char* targetName, int InitMode)
         PROCESSENTRY32 process = GetProcess(targetName);
 
         if (process.th32ProcessID == 0) {
-            MessageBoxA(nullptr, "please open r5reloaded", "Initialize Failed", MB_TOPMOST | MB_ICONERROR | MB_OK);
+            MessageBoxA(nullptr, "please open cs2", "Initialize Failed", MB_TOPMOST | MB_ICONERROR | MB_OK);
             return false;
         }
 

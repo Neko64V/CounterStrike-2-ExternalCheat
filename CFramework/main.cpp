@@ -1,8 +1,9 @@
 #include "Cheat/FrameCore.h"
 #include "Framework/Overlay/Overlay.h"
+#include "Framework/ImGui/Fonts/RobotoRegular.h"
 
-Overlay*	ov = new Overlay;
-CFramework* cx = new CFramework;
+Overlay*	overlay = new Overlay;
+CFramework* cheat = new CFramework;
 
 void Memory::GetBaseAddress()
 {
@@ -11,17 +12,36 @@ void Memory::GetBaseAddress()
 	//m_gEngineBaseAddr = GetModuleBase("engine.dll");
 }
 
+void Overlay::OverlayUserInit()
+{
+	// ImGui io setting
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.IniFilename = nullptr;
+	io.LogFilename = nullptr;
+
+	// Load Font
+	io.Fonts->AddFontFromMemoryCompressedTTF(RobotoRegular_compressed_data, RobotoRegular_compressed_size, 13.f, nullptr);
+
+	// Load Icon
+	static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
+	ImFontConfig icons_config;
+	icons_config.MergeMode = true;
+	icons_config.GlyphOffset.y = 2.f;
+	cheat->icon = io.Fonts->AddFontFromMemoryCompressedTTF(FA_compressed_data, FA_compressed_size, 16.f, &icons_config, icons_ranges);
+	io.Fonts->Build();
+}
+
 void Overlay::OverlayUserFunction()
 {
-	cx->MiscAll();
+	cheat->MiscAll();
 
-	cx->RenderInfo();
+	cheat->RenderInfo();
 
 	if (g.g_ESP)
-		cx->RenderESP();
+		cheat->RenderESP();
 
 	if (g.g_ShowMenu)
-		cx->RenderMenu();
+		cheat->RenderMenu();
 }
 
 // DEBUG時にはコンソールウィンドウを表示する
@@ -39,19 +59,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	m.GetBaseAddress();
 
 	// Overlay
-	if (!ov->InitOverlay("cs2.exe", InitializeMode::PROCESS)) // MemoryInitModeと同様
+	if (!overlay->InitOverlay("cs2.exe", InitializeMode::PROCESS)) // MemoryInitModeと同様
 		return 2;
 
 	// スレッドを作成
-	std::thread([&]() { cx->UpdateList(); }).detach(); // ESP/AIM用にプレイヤーのデータをキャッシュする
+	std::thread([&]() { cheat->UpdateList(); }).detach(); // ESP/AIM用にプレイヤーのデータをキャッシュする
 
 	timeBeginPeriod(1);
-	ov->OverlayLoop();
-	ov->DestroyOverlay();
+	overlay->OverlayLoop();
+	overlay->DestroyOverlay();
 	m.DetachProcess();
 	timeEndPeriod(1);
 	g.g_Run = false;
-	delete cx, ov;
+	delete cheat, overlay;
 
 	return 0;
 }

@@ -2,8 +2,9 @@
 #include <iostream>
 #include <Windows.h>
 #include <TlHelp32.h>
-#include <psapi.h>
+#include <vector>
 #include <string>
+#include <psapi.h>
 
 /*	[+] メモリやオーバーレイの初期化モードを設定します
 
@@ -28,7 +29,6 @@ private:
 	PROCESSENTRY32 GetProcess(const std::string processName);
 public:
 	uintptr_t m_gClientBaseAddr;
-	uintptr_t m_gEngineBaseAddr;
 
 	bool AttachProcess(const char* targetName, int InitMode);
 	void GetBaseAddress();
@@ -46,10 +46,25 @@ public:
 	{
 		WriteProcessMemory(m_hProcess, reinterpret_cast<void*>(address), &value, sizeof(T), NULL);
 	}
+	uintptr_t ReadChain(uintptr_t address, const std::vector<uintptr_t>& offsets)
+	{
+		uintptr_t result = Read<uintptr_t>(address + offsets.at(0));
+		for (int i = 1; i < offsets.size(); i++)
+			result = Read<uintptr_t>(result + offsets.at(i));
+
+		return result;
+	}
 	bool ReadString(uintptr_t address, LPVOID buffer, SIZE_T size) const
 	{
 		SIZE_T size_read;
 		return !!::ReadProcessMemory(m_hProcess, LPCVOID(address), buffer, size, &size_read) && size_read > 0;
+	}
+	std::string ReadString_s(uintptr_t address) const
+	{
+		char name[MAX_PATH]{};
+		ReadString(address, name, sizeof(name));
+
+		return std::string(name);
 	}
 };
 

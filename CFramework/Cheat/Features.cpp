@@ -1,7 +1,7 @@
 #include "FrameCore.h"
 #pragma comment(lib, "WinMM.lib")
 
-const int ReadCount = 128;
+const int ReadCount = 1024;
 
 void CFramework::UpdateList()
 {
@@ -34,16 +34,26 @@ void CFramework::UpdateList()
             CEntity p = CEntity();
             p.address = m.Read<uintptr_t>(entity_entry + 120 * (i & 0x1FF));
 
-            if (entity_entry == pLocal->address)
-                continue;
+            uintptr_t classNamePtr = m.Read<uintptr_t>(m.Read<uintptr_t>(p.address + 0x10) + 0x20);
+            std::string class_name = m.ReadString_s(classNamePtr);
 
-            // get CSPlayerPawn and some data
-            if (!p.UpdateStatic(list_addr))
-                continue;
-            else if (!p.Update())
-                continue;
+            if (class_name.size() > 0) {
 
-            ent_list.push_back(p);
+                if (entity_entry == pLocal->address)
+                    continue;
+
+                // Player
+                if (!class_name.compare("cs_player_controller")) 
+                {
+                    if (!p.UpdateStatic(list_addr))
+                        continue;
+                    else if (!p.Update())
+                        continue;
+
+                    p.m_nameClass = class_name;
+                    ent_list.push_back(p);
+                }
+            }
         }
 
         EntityList = ent_list;
@@ -53,43 +63,20 @@ void CFramework::UpdateList()
 
 void CFramework::MiscAll()
 {
-    if (!pLocal->Update())
-        return;
+    // TriggerBot
+    if (pLocal->m_iIDEntIndex < 5000) {
+        auto list_addr = m.Read<uintptr_t>(m.m_gClientBaseAddr + offset::dwEntityList);
+        CEntity ent;
+        ent.address = m.Read<uintptr_t>(list_addr + 8 * (pLocal->m_iIDEntIndex >> 9) + 0x10);
 
-    // NoRecoil
-    if (g.g_NoRecoil)
-    {
-        /*
-        static Vector3 OldPunch{};
-
-        Vector3 PunchAngle = pLocal->GetWeaponPunchAngle();
-
-        if (!Vec3_Empty(PunchAngle)) {
-            Vector3 Delta = pLocal->GetViewAngle() + ((OldPunch - PunchAngle) * g.g_NoRecoilVal);
-            NormalizeAngles(Delta);
-
-            if (!Vec3_Empty(Delta))
-                m.Write<Vector3>(pLocal->address + offset::m_ViewAngle, Delta);
-
-            OldPunch = PunchAngle;
-        }
-        */
-    }
-
-    // bHop
-    if (g.g_BunnyHop)
-    {
-        /*
-        if (GetAsyncKeyState(VK_SPACE))
+        if (ent.TriggerAllow(list_addr, pLocal))
         {
-            int flag = pLocal->GetFlag();
-
-            if (flag != 64) {
-                m.Write<uint32_t>(m.m_gProcessBaseAddr + offset::in_jump + 0x8, 5);
-                std::this_thread::sleep_for(std::chrono::microseconds(1));
-                m.Write<uint32_t>(m.m_gProcessBaseAddr + offset::in_jump + 0x8, 4);
+            // Click
+            if (g.g_ESP_Team && pLocal->m_iTeamNum == ent.m_iTeamNum || pLocal->m_iTeamNum != ent.m_iTeamNum) {
+                /*
+                mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+                mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);*/
             }
         }
-        */
     }
 }
