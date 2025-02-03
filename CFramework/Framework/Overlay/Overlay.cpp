@@ -59,7 +59,7 @@ bool Overlay::CreateOverlay()
 
 void Overlay::OverlayLoop()
 {
-    while (g.g_Run)
+    while (g.process_active)
     {
         MSG msg;
         while (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE)) {

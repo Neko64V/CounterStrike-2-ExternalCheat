@@ -1,28 +1,11 @@
 #include "Overlay.h"
 
-bool Overlay::InitOverlay(const char* targetName, int InitMode)
+bool Overlay::InitOverlay(const char* targetName)
 {
-    if (InitMode == WINDOW_TITLE || InitMode == WINDOW_CLASS)
-    {
-        g.g_GameHwnd = InitMode == WINDOW_TITLE ? FindWindowA(NULL, targetName) : FindWindowA(targetName, NULL);
+    g.g_GameHwnd = GetTargetWindow(targetName);
 
-        if (!g.g_GameHwnd) {
-            MessageBoxA(nullptr, "target window not found", "Initialize Failed", MB_TOPMOST | MB_ICONERROR | MB_OK);
-            return false;
-        }
-    }
-    else if (InitMode == PROCESS)
-    {
-        g.g_GameHwnd = GetTargetWindow(targetName);
-
-        if (!g.g_GameHwnd) {
-           MessageBoxA(nullptr, "target process not found", "Initialize Failed", MB_TOPMOST | MB_ICONERROR | MB_OK);
-            return false;
-        }
-    }
-    else
-    {
-        MessageBoxA(nullptr, "Invalid init option", "Initialize Failed", MB_TOPMOST | MB_ICONERROR | MB_OK);
+    if (!g.g_GameHwnd) {
+        MessageBoxA(nullptr, "target process not found", "Initialize Failed", MB_TOPMOST | MB_ICONERROR | MB_OK);
         return false;
     }
 
@@ -36,7 +19,7 @@ void Overlay::OverlayManager()
     // Window Check
     HWND hWnd = FindWindowA(nullptr, m_TargetTitle);
     if (!hWnd) {
-        g.g_Run = false;
+        g.process_active = false;
         return;
     }
 
