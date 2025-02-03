@@ -4,35 +4,28 @@
 #include "a2x/buttons.hpp"
 #include "a2x/client_dll.hpp"
 
+class GameSDK
+{
+public:
+	bool InitOffset();
+
+	uintptr_t dwEntityList = 0;
+	uintptr_t dwViewMatrix = 0;
+
+	uintptr_t dwPlantedC4 = 0;
+
+	uintptr_t dwLocalPlayerController = 0;
+};
+
+extern GameSDK* Game;
+
 namespace offset
 {
 	// Address
-	constexpr auto dwEntityList		= cs2_dumper::offsets::client_dll::dwEntityList;
-	constexpr auto dwLocalPlayerController	= cs2_dumper::offsets::client_dll::dwLocalPlayerController;
 	constexpr auto dwViewRender		= cs2_dumper::offsets::client_dll::dwViewRender;
-	constexpr auto dwViewMatrix		= cs2_dumper::offsets::client_dll::dwViewMatrix;
 	constexpr auto dwViewAngles		= cs2_dumper::offsets::client_dll::dwViewAngles;
 	constexpr auto dwGlobalVars		= cs2_dumper::offsets::client_dll::dwGlobalVars;
-	constexpr auto dwPlantedC4		= cs2_dumper::offsets::client_dll::dwPlantedC4;
 	
-	// Button
-	constexpr auto attack = 0x1875710;
-	constexpr auto attack2 = 0x18757A0;
-	constexpr auto back = 0x18759E0;
-	constexpr auto duck = 0x1875CB0;
-	constexpr auto forward = 0x1875950;
-	constexpr auto jump = 0x1875C20;
-	constexpr auto left = 0x1875A70;
-	constexpr auto lookatweapon = 0x1A9DF50;
-	constexpr auto reload = 0x1875680;
-	constexpr auto right = 0x1875B00;
-	constexpr auto showscores = 0x1A9DE30;
-	constexpr auto sprint = 0x18755F0;
-	constexpr auto turnleft = 0x1875830;
-	constexpr auto turnright = 0x18758C0;
-	constexpr auto use = 0x1875B90;
-	constexpr auto zoom = 0x1A9DEC0;
-
 	// CCSPlayerControlle
 	constexpr auto m_hPlayerPawn = cs2_dumper::schemas::client_dll::CCSPlayerController::m_hPlayerPawn;
 	constexpr auto m_sSanitizedPlayerName = cs2_dumper::schemas::client_dll::CCSPlayerController::m_sSanitizedPlayerName;

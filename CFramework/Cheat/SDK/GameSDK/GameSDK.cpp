@@ -1,5 +1,27 @@
 #include "GameSDK.h"
 
+bool GameSDK::InitOffset()
+{
+    auto info = m.GetModuleInfo("client.dll");
+    std::vector<uint8_t> bytes = m.ReadBytes((uintptr_t)info.lpBaseOfDll, info.SizeOfImage);
+
+    dwEntityList = m.FindPattern(bytes, "48 89 35 ?? ?? ?? ?? 48 85 f6", 3, 7);
+    printf("dwEntityList : 0x%I64x\n", dwEntityList);
+
+    dwViewMatrix = m.FindPattern(bytes, "48 8d 0d ?? ?? ?? ?? 48 c1 e0 06", 3, 7);
+    printf("dwViewMatrix : 0x%I64x\n", dwViewMatrix);
+
+    dwPlantedC4 = m.FindPattern(bytes, "48 8b 15 ?? ?? ?? ?? 41 ff c0", 3, 7);
+    printf("dwPlantedC4 : 0x%I64x\n", dwPlantedC4);
+
+    dwLocalPlayerController = m.FindPattern(bytes, "48 89 05 ?? ?? ?? ?? 8b 9e", 3, 7);
+    printf("dwLocalPlayerController : 0x%I64x\n", dwLocalPlayerController);
+
+    bytes.clear();
+
+    return dwEntityList != 0 && dwLocalPlayerController != 0 && dwViewMatrix != 0;
+}
+
 bool Vec2_Empty(const Vector2& value)
 {
     return value == Vector2();
@@ -66,3 +88,5 @@ bool WorldToScreen(Matrix ViewMatrix, RECT Size, Vector3 vIn, Vector2& vOut)
 
     return true;
 }
+
+GameSDK* Game = new GameSDK();
