@@ -1,9 +1,11 @@
 # 概要
-Counter-Strike 2用のシンプルな外部チートです。
+Counter-Strike 2用のシンプルな外部チートです。  
 <img src="CS2_External.png" width="100%">
 
 ## 機能
+* AimBot
 * ESP
+* PatternScan (部分的)
 * MenuKey : Insert
 
 ## 実行
@@ -11,7 +13,9 @@ Counter-Strike 2用のシンプルな外部チートです。
 https://learn.microsoft.com/ja-jp/cpp/build/vscpp-step-0-installation?view=msvc-170
 
 ## 使用したライブラリ
-* Microsoft DirectXTK->SimpleMath  
+* a2x-dumper  
+https://github.com/a2x/cs2-dumper
+* Microsoft DirectXTK/SimpleMath  
 https://github.com/microsoft/DirectXTK  
 * ImGui  
 https://github.com/ocornut/imgui
