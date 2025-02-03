@@ -75,8 +75,9 @@ private:
     int Index = 0;
 
     // int‚É‚µ‚È‚¢‚ÆŸø‚Þ
-    void DrawLine(const Vector2 a, const Vector2 b, ImColor color, float width) {
-        ImGui::GetWindowDrawList()->AddLine(ImVec2((int)a.x, (int)a.y), ImVec2((int)b.x, (int)b.y), color, width);
+    void DrawLine(const Vector2 a, const Vector2 b, ImColor color, float width) 
+    {
+        ImGui::GetBackgroundDrawList()->AddLine(ImVec2((int)a.x, (int)a.y), ImVec2((int)b.x, (int)b.y), color, width);
     }
     void DrawBox(int right, int left, int top, int bottom, ImColor color, float width) {
         DrawLine(Vector2(left, top), Vector2(right, top), color, 1.f);
@@ -86,7 +87,7 @@ private:
     }
     void RectFilled(float x0, float y0, float x1, float y1, ImColor color, float rounding, int rounding_corners_flags)
     {
-        ImGui::GetWindowDrawList()->AddRectFilled(ImVec2((int)x0, (int)y0), ImVec2((int)x1, (int)y1), color, rounding, rounding_corners_flags);
+        ImGui::GetBackgroundDrawList()->AddRectFilled(ImVec2((int)x0, (int)y0), ImVec2((int)x1, (int)y1), color, rounding, rounding_corners_flags);
     }
     void HealthBar(int x, int y, int w, int h, int value, int v_max)
     {
@@ -100,15 +101,15 @@ private:
     }
     void Circle(Vector2 pos, float fov_size, ImColor color)
     {
-        ImGui::GetWindowDrawList()->AddCircle(ImVec2((int)pos.x, (int)pos.y), fov_size, color, 100, 0);
+        ImGui::GetBackgroundDrawList()->AddCircle(ImVec2((int)pos.x, (int)pos.y), fov_size, color, 100, 0);
     }
     void String(Vector2 pos, ImColor color, const char* text)
     {
-        ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(), ImGui::GetFontSize(), ImVec2((int)pos.x, (int)pos.y), color, text, text + strlen(text), 1024, 0);
+        ImGui::GetBackgroundDrawList()->AddText(ImGui::GetFont(), ImGui::GetFontSize(), ImVec2((int)pos.x, (int)pos.y), color, text, text + strlen(text), 1024, 0);
     }
     void StringEx(Vector2 pos, ImColor color, float font_size, const char* text)
     {
-        ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(), font_size, ImVec2((int)pos.x + 1.f, (int)pos.y + 1.f), ImColor(ESP_Shadow.Value.x, ESP_Shadow.Value.y, ESP_Shadow.Value.z, m_flShadowAlpha), text, text + strlen(text), 1024, 0);
-        ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(), font_size, ImVec2((int)pos.x, (int)pos.y), color, text, text + strlen(text), 1024, 0);
+        ImGui::GetBackgroundDrawList()->AddText(ImGui::GetFont(), font_size, ImVec2((int)pos.x + 1.f, (int)pos.y + 1.f), ImColor(ESP_Shadow.Value.x, ESP_Shadow.Value.y, ESP_Shadow.Value.z, m_flShadowAlpha), text, text + strlen(text), 1024, 0);
+        ImGui::GetBackgroundDrawList()->AddText(ImGui::GetFont(), font_size, ImVec2((int)pos.x, (int)pos.y), color, text, text + strlen(text), 1024, 0);
     }
 };

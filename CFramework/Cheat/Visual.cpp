@@ -57,28 +57,23 @@ void CFramework::RenderESP()
     // ViewMatrixとかいろいろ
     Matrix ViewMatrix = m.Read<Matrix>(m.m_gClientBaseAddr + Game->dwViewMatrix);
 
-    ImGui::SetNextWindowPos(ImVec2(g.g_GamePoint.x, g.g_GamePoint.y));
-    ImGui::SetNextWindowSize(ImVec2(g.g_GameRect.right, g.g_GameRect.bottom));
-    ImGui::Begin("##Overlay", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground);
-    
     // C4 dev
-    /*
-    uintptr_t c4_ptr = m.Read<uintptr_t>(m.m_gClientBaseAddr + Game->dwPlantedC4);
+    uintptr_t pPlantedC4 = m.Read<uintptr_t>(m.m_gClientBaseAddr + Game->dwPlantedC4);
 
-    if (c4_ptr != NULL) {
+    if (pPlantedC4 != NULL) {
 
-        C4->address = m.Read<uintptr_t>(c4_ptr);
+        C4->address = m.Read<uintptr_t>(pPlantedC4);
         Vector3 GamePositon = C4->GetAbsOrigin();
 
         if (!Vec3_Empty(GamePositon)) {
             Vector2 pos{};
             WorldToScreen(ViewMatrix, g.g_GameRect, GamePositon, pos);
 
-            std::string vout = "C4";// + std::to_string((int)C4->GetTimer()) + "sec";
-            String(Vector2(pos.x - (ImGui::CalcTextSize(vout.c_str()).x / 2.f), pos.y - ImGui::GetFontSize() - 1.f), ImColor(0.f, 1.f, 0.f, 1.f), vout.c_str());
+            //std::string C4_Text = "C4" + std::to_string((int)C4->GetTimer()) + "sec";
+            String(Vector2(pos.x - (ImGui::CalcTextSize("C4").x / 2.f), pos.y - ImGui::GetFontSize() - 2.f), ImColor(0.f, 1.f, 0.f, 1.f), "C4");
             Circle(pos, 2.f, ImColor(0.f, 1.f, 0.f, 1.f));
         }
-    }*/
+    }
 
     // るーぷするよ
     for (auto& entity : EntityList)
@@ -160,13 +155,10 @@ void CFramework::RenderESP()
                 RectFilled(left, top,right, bottom, ESP_Shadow, 0.f, NULL);
 
             // Shadow
-            /*
             DrawLine(Vector2(left - 1, top - 1), Vector2(right + 2, top - 1), ESP_Shadow, 1.f);
             DrawLine(Vector2(left - 1, top), Vector2(left - 1, bottom + 2), ESP_Shadow, 1.f);
             DrawLine(Vector2(right + 1, top), Vector2(right + 1, bottom + 2), ESP_Shadow, 1.f);
             DrawLine(Vector2(left - 1, bottom + 1), Vector2(right + 1, bottom + 1), ESP_Shadow, 1.f);
-            */
-            DrawBox(right + 1, left - 1, top - 1, bottom + 1, ESP_Shadow, 1.f);
 
             switch (g.g_ESP_BoxType)
             {
@@ -318,13 +310,9 @@ void CFramework::RenderESP()
             Vector2 SmoothedAngle = ViewAngle + (Delta / g.g_AimSmooth);
             NormalizeAngles(SmoothedAngle);
 
-            if (!Vec2_Empty(SmoothedAngle))
-            {
-                //m.Write<Vector2>(pLocal->m_pCSPlayerPawn + 0x124C, SmoothedAngle);
+            if (!Vec2_Empty(SmoothedAngle)) {
                 m.Write<Vector2>(m.m_gClientBaseAddr + offset::dwViewAngles, SmoothedAngle);
             }
         }
     }
-
-    ImGui::End();
 }
