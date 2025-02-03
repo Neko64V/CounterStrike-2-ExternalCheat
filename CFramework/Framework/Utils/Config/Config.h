@@ -7,7 +7,7 @@
 struct Globals
 {
     // System
-    bool g_Run = true;
+    bool process_active = true;
     bool g_ShowMenu = false;
 
     // GameData

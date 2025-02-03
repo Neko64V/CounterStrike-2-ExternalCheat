@@ -5,19 +5,24 @@ const int ReadCount = 1024;
 
 void CFramework::UpdateList()
 {
-    while (g.g_Run)
+    if (!Game->InitOffset()) {
+        g.process_active = false;
+        return;
+    }
+
+    while (g.process_active)
     {
         std::vector<CEntity> ent_list;
         std::this_thread::sleep_for(std::chrono::milliseconds(250));
 
         // Read EntityList
-        auto list_addr = m.Read<uintptr_t>(m.m_gClientBaseAddr + offset::dwEntityList);
+        auto list_addr = m.Read<uintptr_t>(m.m_gClientBaseAddr + Game->dwEntityList);
 
         if (list_addr == NULL)
             continue;
 
         // Local
-        pLocal->address = m.Read<uintptr_t>(m.m_gClientBaseAddr + offset::dwLocalPlayerController);
+        pLocal->address = m.Read<uintptr_t>(m.m_gClientBaseAddr + Game->dwLocalPlayerController);
 
         if (!pLocal->UpdateStatic(list_addr))
             continue;
@@ -35,7 +40,7 @@ void CFramework::UpdateList()
             p.address = m.Read<uintptr_t>(entity_entry + 120 * (i & 0x1FF));
 
             uintptr_t classNamePtr = m.Read<uintptr_t>(m.Read<uintptr_t>(p.address + 0x10) + 0x20);
-            std::string class_name = m.ReadString_s(classNamePtr);
+            std::string class_name = m.ReadStringA(classNamePtr);
 
             if (class_name.size() > 0) {
 
@@ -65,7 +70,7 @@ void CFramework::MiscAll()
 {
     // TriggerBot
     if (pLocal->m_iIDEntIndex < 5000) {
-        auto list_addr = m.Read<uintptr_t>(m.m_gClientBaseAddr + offset::dwEntityList);
+        auto list_addr = m.Read<uintptr_t>(m.m_gClientBaseAddr + Game->dwEntityList);
         CEntity ent;
         ent.address = m.Read<uintptr_t>(list_addr + 8 * (pLocal->m_iIDEntIndex >> 9) + 0x10);
 

@@ -55,14 +55,15 @@ void CFramework::RenderESP()
         return;
 
     // ViewMatrixとかいろいろ
-    Matrix ViewMatrix = m.Read<Matrix>(m.m_gClientBaseAddr + offset::dwViewMatrix);
+    Matrix ViewMatrix = m.Read<Matrix>(m.m_gClientBaseAddr + Game->dwViewMatrix);
 
     ImGui::SetNextWindowPos(ImVec2(g.g_GamePoint.x, g.g_GamePoint.y));
     ImGui::SetNextWindowSize(ImVec2(g.g_GameRect.right, g.g_GameRect.bottom));
     ImGui::Begin("##Overlay", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground);
     
     // C4 dev
-    uintptr_t c4_ptr = m.Read<uintptr_t>(m.m_gClientBaseAddr + offset::dwPlantedC4);
+    /*
+    uintptr_t c4_ptr = m.Read<uintptr_t>(m.m_gClientBaseAddr + Game->dwPlantedC4);
 
     if (c4_ptr != NULL) {
 
@@ -77,7 +78,7 @@ void CFramework::RenderESP()
             String(Vector2(pos.x - (ImGui::CalcTextSize(vout.c_str()).x / 2.f), pos.y - ImGui::GetFontSize() - 1.f), ImColor(0.f, 1.f, 0.f, 1.f), vout.c_str());
             Circle(pos, 2.f, ImColor(0.f, 1.f, 0.f, 1.f));
         }
-    }
+    }*/
 
     // るーぷするよ
     for (auto& entity : EntityList)

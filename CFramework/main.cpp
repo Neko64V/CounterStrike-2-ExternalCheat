@@ -5,13 +5,6 @@
 Overlay*	overlay = new Overlay;
 CFramework* cheat = new CFramework;
 
-void Memory::GetBaseAddress()
-{
-	// ベースアドレスを取得
-	m_gClientBaseAddr = GetModuleBase("client.dll");
-	//m_gEngineBaseAddr = GetModuleBase("engine.dll");
-}
-
 void Overlay::OverlayUserInit()
 {
 	// ImGui io setting
@@ -52,14 +45,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 {
 	// プロセスに接続する
-	if (!m.AttachProcess("cs2.exe", InitializeMode::PROCESS)) // 詳細は Framework/Utils/Memory/Memory.h を参照
+	if (!m.AttachProcess("cs2.exe")) // 詳細は Framework/Utils/Memory/Memory.h を参照
 		return 1;
 
-	// ベースアドレスを取得する
-	m.GetBaseAddress();
-
 	// Overlay
-	if (!overlay->InitOverlay("cs2.exe", InitializeMode::PROCESS)) // MemoryInitModeと同様
+	if (!overlay->InitOverlay("cs2.exe")) // MemoryInitModeと同様
 		return 2;
 
 	// スレッドを作成
@@ -70,8 +60,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	overlay->DestroyOverlay();
 	m.DetachProcess();
 	timeEndPeriod(1);
-	g.g_Run = false;
-	delete cheat, overlay;
+	g.process_active = false;
+	delete cheat, overlay, Game;
 
 	return 0;
 }

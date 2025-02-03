@@ -307,7 +307,7 @@ void CFramework::RenderMenu()
         ImGui::Separator();
         ImGui::Spacing();
         if (ImGui::Button("Exit", ImVec2(ImGui::GetContentRegionAvail().x, 30.f)))
-            g.g_Run = false;
+            g.process_active = false;
 
         ImGui::EndChild();
     }   break;
