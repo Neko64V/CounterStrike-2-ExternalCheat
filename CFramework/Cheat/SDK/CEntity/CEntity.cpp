@@ -62,7 +62,7 @@ bool CEntity::UpdateStatic(const uintptr_t& entitylist)
 	uintptr_t pWeaponEntity = m.ReadChain(m_pClippingWeapon, { 0x10, 0x20 });
 
 	if (pWeaponEntity != NULL) {
-		m_nameWeapon = m.ReadString_s(pWeaponEntity);
+		m_nameWeapon = m.ReadStringA(pWeaponEntity);
 
 		if (m_nameWeapon.find("weapon_") != std::string::npos)
 			m_nameWeapon = m_nameWeapon.substr(7, m_nameWeapon.length());
