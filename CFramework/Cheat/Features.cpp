@@ -39,7 +39,7 @@ void CFramework::UpdateList()
             CEntity p = CEntity();
             p.address = m.Read<uintptr_t>(entity_entry + 120 * (i & 0x1FF));
 
-            uintptr_t classNamePtr = m.Read<uintptr_t>(m.Read<uintptr_t>(p.address + 0x10) + 0x20);
+            uintptr_t classNamePtr = m.ReadChain(p.address, { 0x10, 0x20 });
             std::string class_name = m.ReadStringA(classNamePtr);
 
             if (class_name.size() > 0) {
@@ -68,20 +68,9 @@ void CFramework::UpdateList()
 
 void CFramework::MiscAll()
 {
-    // TriggerBot
-    if (pLocal->m_iIDEntIndex < 5000) {
-        auto list_addr = m.Read<uintptr_t>(m.m_gClientBaseAddr + Game->dwEntityList);
-        CEntity ent;
-        ent.address = m.Read<uintptr_t>(list_addr + 8 * (pLocal->m_iIDEntIndex >> 9) + 0x10);
+    if (pLocal->IsDead())
+        return;
 
-        if (ent.TriggerAllow(list_addr, pLocal))
-        {
-            // Click
-            if (g.g_ESP_Team && pLocal->m_iTeamNum == ent.m_iTeamNum || pLocal->m_iTeamNum != ent.m_iTeamNum) {
-                /*
-                mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
-                mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);*/
-            }
-        }
-    }
+    // bHop, NoRecoil and more...
+
 }

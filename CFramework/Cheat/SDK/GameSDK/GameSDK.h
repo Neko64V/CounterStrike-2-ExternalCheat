@@ -3,6 +3,7 @@
 #include "a2x/offsets.hpp"
 #include "a2x/buttons.hpp"
 #include "a2x/client_dll.hpp"
+using namespace cs2_dumper::schemas::client_dll;
 
 class GameSDK
 {
@@ -11,44 +12,39 @@ public:
 
 	uintptr_t dwEntityList = 0;
 	uintptr_t dwViewMatrix = 0;
-
 	uintptr_t dwPlantedC4 = 0;
-
+	uintptr_t dwViewAngles = 0;
 	uintptr_t dwLocalPlayerController = 0;
 };
-
-extern GameSDK* Game;
 
 namespace offset
 {
 	// Address
-	constexpr auto dwViewRender		= cs2_dumper::offsets::client_dll::dwViewRender;
-	constexpr auto dwViewAngles		= cs2_dumper::offsets::client_dll::dwViewAngles;
-	constexpr auto dwGlobalVars		= cs2_dumper::offsets::client_dll::dwGlobalVars;
-	
-	// CCSPlayerControlle
-	constexpr auto m_hPlayerPawn = cs2_dumper::schemas::client_dll::CCSPlayerController::m_hPlayerPawn;
-	constexpr auto m_sSanitizedPlayerName = cs2_dumper::schemas::client_dll::CCSPlayerController::m_sSanitizedPlayerName;
-	constexpr auto m_fFlags = cs2_dumper::schemas::client_dll::C_BaseEntity::m_fFlags;
-	constexpr auto m_iHealth = cs2_dumper::schemas::client_dll::C_BaseEntity::m_iHealth;
-	constexpr auto m_iMaxHealth = cs2_dumper::schemas::client_dll::C_BaseEntity::m_iMaxHealth;
-	constexpr auto m_iTeamNum = cs2_dumper::schemas::client_dll::C_BaseEntity::m_iTeamNum;
-	constexpr auto m_lifeState = cs2_dumper::schemas::client_dll::C_BaseEntity::m_lifeState;
-	constexpr auto m_pCollision = cs2_dumper::schemas::client_dll::C_BaseEntity::m_pCollision;
-	constexpr auto m_pGameSceneNode = cs2_dumper::schemas::client_dll::C_BaseEntity::m_pGameSceneNode;
-	constexpr auto m_ArmorValue = cs2_dumper::schemas::client_dll::C_CSPlayerPawn::m_ArmorValue;
-	constexpr auto m_vecLastClipCameraPos = cs2_dumper::schemas::client_dll::C_CSPlayerPawnBase::m_vecLastClipCameraPos;
-	constexpr auto m_angEyeAngles = cs2_dumper::schemas::client_dll::C_CSPlayerPawnBase::m_angEyeAngles;
-	constexpr auto m_iIDEntIndex = cs2_dumper::schemas::client_dll::C_CSPlayerPawnBase::m_iIDEntIndex;
-	constexpr auto m_pClippingWeapon = cs2_dumper::schemas::client_dll::C_CSPlayerPawnBase::m_pClippingWeapon;
-	constexpr auto m_vOldOrigin = cs2_dumper::schemas::client_dll::C_BasePlayerPawn::m_vOldOrigin;
-	constexpr auto m_pCameraServices = cs2_dumper::schemas::client_dll::C_BasePlayerPawn::m_pCameraServices;
-	constexpr auto m_modelState = cs2_dumper::schemas::client_dll::CSkeletonInstance::m_modelState;
-	constexpr auto m_szName = cs2_dumper::schemas::client_dll::CCSWeaponBaseVData::m_szName;
+	constexpr auto dwViewAngles = cs2_dumper::offsets::client_dll::dwViewAngles;
 
-	// C4
-	constexpr auto m_flTimerLength = cs2_dumper::schemas::client_dll::C_PlantedC4::m_flTimerLength;
-	constexpr auto m_vecAbsOrigin = cs2_dumper::schemas::client_dll::CGameSceneNode::m_vecAbsOrigin;
+	// Offsets
+	constexpr auto m_hPlayerPawn = CCSPlayerController::m_hPlayerPawn;
+	constexpr auto m_sSanitizedPlayerName = CCSPlayerController::m_sSanitizedPlayerName;
+	constexpr auto m_fFlags = C_BaseEntity::m_fFlags;
+	constexpr auto m_iHealth = C_BaseEntity::m_iHealth;
+	constexpr auto m_iMaxHealth = C_BaseEntity::m_iMaxHealth;
+	constexpr auto m_iTeamNum = C_BaseEntity::m_iTeamNum;
+	constexpr auto m_lifeState = C_BaseEntity::m_lifeState;
+	constexpr auto m_pCollision = C_BaseEntity::m_pCollision;
+	constexpr auto m_pGameSceneNode = C_BaseEntity::m_pGameSceneNode;
+	constexpr auto m_ArmorValue = C_CSPlayerPawn::m_ArmorValue;
+	constexpr auto m_vecLastClipCameraPos = C_CSPlayerPawnBase::m_vecLastClipCameraPos;
+	constexpr auto m_angEyeAngles = C_CSPlayerPawnBase::m_angEyeAngles;
+	constexpr auto m_iIDEntIndex = C_CSPlayerPawnBase::m_iIDEntIndex;
+	constexpr auto m_pClippingWeapon = C_CSPlayerPawnBase::m_pClippingWeapon;
+	constexpr auto m_vOldOrigin = C_BasePlayerPawn::m_vOldOrigin;
+	constexpr auto m_pCameraServices = C_BasePlayerPawn::m_pCameraServices;
+	constexpr auto m_modelState = CSkeletonInstance::m_modelState;
+	constexpr auto m_szName = CCSWeaponBaseVData::m_szName;
+
+	// C4 - dev
+	constexpr auto m_flTimerLength = C_PlantedC4::m_flTimerLength;
+	constexpr auto m_vecAbsOrigin = CGameSceneNode::m_vecAbsOrigin;
 };
 
 enum CBoneID
@@ -72,6 +68,7 @@ enum CBoneID
 	BONE_RIGHT_FEET = 27,
 };
 
+extern GameSDK* Game;
 extern bool Vec2_Empty(const Vector2& value);
 extern bool Vec3_Empty(const Vector3& value);
 extern void NormalizeAngles(Vector2& angle);

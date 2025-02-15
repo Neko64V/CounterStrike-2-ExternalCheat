@@ -38,8 +38,7 @@ void CFramework::RenderMenu()
 
     ImGui::PushFont(icon);
 
-    for (int i = 0; i < MenuIconList.size(); i++)
-    {
+    for (int i = 0; i < MenuIconList.size(); i++) {
         if (ImGui::CustomButton(MenuIconList[i], MenuStringList[i], ImVec2(ImGui::GetContentRegionAvail().x, 35.f), Index == i ? true : false))
             Index = i;
     }
@@ -176,7 +175,7 @@ void CFramework::RenderMenu()
         ImGui::Checkbox("Rainbow FOV", &g.g_ShowFOV);
         //ImGui::Checkbox("Rainbow FOV", &g.g_RainbowFOV);
         ImGui::ColorEdit3("Color", &AimFOV_Color.Value.x);
-        ImGui::CustomSliderFloat("Smooth", "##a_smt", &g.g_AimSmooth, 1.f, 30.f);
+        ImGui::CustomSliderInt("Aim FOV", "##a_fov", &g.g_AimFOV, 30, 300);
 
         ImGui::EndChild();
         ImGui::BeginChild("##101", ImVec2(ImGui::GetContentRegionAvail()), true);

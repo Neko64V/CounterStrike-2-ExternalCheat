@@ -54,11 +54,13 @@ uintptr_t Memory::FindPattern(const std::vector<uint8_t>& read_data, const std::
                 break;
             }
         }
+
         if (patternMatch) {
             uintptr_t patternAddress = m_gClientBaseAddr + i;
             int32_t of;
             ReadProcessMemory(m_hProcess, reinterpret_cast<LPCVOID>(patternAddress + offset), &of, sizeof(of), nullptr);
             uintptr_t result = patternAddress + of + extra;
+            bytes.clear();
 
             return (result - m_gClientBaseAddr);
         }

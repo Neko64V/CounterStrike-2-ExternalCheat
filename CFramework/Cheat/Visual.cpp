@@ -248,6 +248,7 @@ void CFramework::RenderESP()
             continue;
 
         // AimBot
+        // 多分FOV外の敵も部分的に狙ってるので要修正
         if (g.g_AimBot && pLocal->m_iTeamNum != pEntity->m_iTeamNum)
         {
             for (const auto& bone : BoneList)
@@ -304,14 +305,14 @@ void CFramework::RenderESP()
             }
 
             Vector2 Angle = CalcAngle(pLocal->GetCameraPosition(), target.GetBoneByID(boneId));
-            Vector3 ViewAngle = pLocal->GetViewAngle();
+            Vector2 ViewAngle = pLocal->GetViewAngle();
             Vector2 Delta = Angle - ViewAngle;
             NormalizeAngles(Delta);
             Vector2 SmoothedAngle = ViewAngle + (Delta / g.g_AimSmooth);
             NormalizeAngles(SmoothedAngle);
 
             if (!Vec2_Empty(SmoothedAngle)) {
-                m.Write<Vector2>(m.m_gClientBaseAddr + offset::dwViewAngles, SmoothedAngle);
+                m.Write<Vector2>(m.m_gClientBaseAddr + Game->dwViewAngles, SmoothedAngle);
             }
         }
     }

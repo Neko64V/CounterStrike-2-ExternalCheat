@@ -49,9 +49,9 @@ public:
 		return m.Read<Vector3>(m_pCSPlayerPawn + offset::m_vecLastClipCameraPos);
 	}
 
-	Vector3 GetViewAngle()
+	Vector2 GetViewAngle()
 	{
-		return m.Read<Vector3>(m.m_gClientBaseAddr + offset::dwViewAngles);
+		return m.Read<Vector2>(m.m_gClientBaseAddr + offset::dwViewAngles);
 		//return m.Read<Vector3>(m_pCSPlayerPawn + offset::m_angEyeAngles);
 	}
 

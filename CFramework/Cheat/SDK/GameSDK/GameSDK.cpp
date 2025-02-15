@@ -17,9 +17,13 @@ bool GameSDK::InitOffset()
     dwLocalPlayerController = m.FindPattern(bytes, "48 89 05 ?? ?? ?? ?? 8b 9e", 3, 7);
     printf("dwLocalPlayerController : 0x%I64x\n", dwLocalPlayerController);
 
+    // temp
+    dwViewAngles = offset::dwViewAngles;
+    printf("dwViewAngles : 0x%I64x\n", dwViewAngles);
+
     bytes.clear();
 
-    return dwEntityList != 0 && dwLocalPlayerController != 0 && dwViewMatrix != 0;
+    return dwEntityList > 0x1A00000 && dwLocalPlayerController > 0x1A00000 && dwViewMatrix > 0x1A00000;
 }
 
 bool Vec2_Empty(const Vector2& value)
